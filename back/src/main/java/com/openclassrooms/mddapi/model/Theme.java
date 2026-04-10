@@ -6,33 +6,28 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
-@Table(name = "topics")
-public class Topic {
+@Data
+@Table(name = "themes")
+public class Theme {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "topic_id")
 	private Long id;
 	
+	@NotBlank
+	@Size(max = 50)
 	@Column(nullable = false)
-	private String name;
+	private String titre;
 
-	public Long getId() {
-		return id;
-	}
+	@NotNull
+    @Size(max = 2500)
+    @Column(nullable = false)
+	private String description;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 }
