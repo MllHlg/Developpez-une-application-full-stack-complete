@@ -1,0 +1,7 @@
+<app-nav-bar></app-nav-bar>
+<mat-divider></mat-divider>
+<div class="card_container">
+    @for (theme of themes$ | async; track theme.id) {
+        <app-theme-card [theme]="theme"></app-theme-card>
+    }
+</div>

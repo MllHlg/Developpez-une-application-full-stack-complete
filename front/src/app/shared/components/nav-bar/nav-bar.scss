@@ -1,0 +1,38 @@
+div {
+    display: flex;
+    height: 10%;
+    width: auto;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 10px;
+
+    .logo {
+        height: 100%;
+    }
+
+    nav {
+        display: flex;
+        height: 100%;
+        gap: 10px;
+        align-items: center;
+
+        .logout {
+            color: #A40F0F;
+            cursor: pointer;
+        }
+
+        .active {
+            color: #7451EB;
+        }
+
+        .unactive {
+            color: black;
+            cursor: pointer;
+        }
+
+        .user {
+            height: 60%;
+            cursor: pointer;
+        }
+    }
+}

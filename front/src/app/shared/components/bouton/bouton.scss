@@ -1,0 +1,7 @@
+@use '@angular/material' as mat;
+
+button[matButton="filled"] {
+    @include mat.button-overrides((
+        filled-container-color: #7451EB,
+    ));
+}
