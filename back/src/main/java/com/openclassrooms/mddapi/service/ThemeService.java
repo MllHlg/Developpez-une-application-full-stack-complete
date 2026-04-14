@@ -18,7 +18,7 @@ public class ThemeService implements IThemeService {
 
 	@Override
 	public List<Theme> getTopics() {
-		return themeRepository.findAll();
+		return this.themeRepository.findAll();
 	}
 	
 }
