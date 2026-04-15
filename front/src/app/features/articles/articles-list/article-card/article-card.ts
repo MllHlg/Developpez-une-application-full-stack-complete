@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
-import { Bouton } from "../bouton/bouton";
-import { Article } from '../../../core/models/article';
+import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { Article } from '../../../../core/models/article';
 
 @Component({
   selector: 'app-article-card',

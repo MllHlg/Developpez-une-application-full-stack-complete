@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
-import { Bouton } from "../bouton/bouton";
 import { Theme } from '../../../core/models/theme';
+import { Bouton } from '../../../shared/components/bouton/bouton';
 
 @Component({
   selector: 'app-theme-card',

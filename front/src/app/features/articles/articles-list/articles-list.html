@@ -3,10 +3,25 @@
 <div class="main-content">
     <div class="tool-bar">
         <app-bouton texte="Créer un article"></app-bouton>
+        <div class="section-tri" (click)="sort()">
+            <p>Trier par</p>
+            @if (triDesc) {
+                <mat-icon>arrow_downward</mat-icon>
+            } @else {
+                <mat-icon>arrow_upward</mat-icon>
+            }
+        </div>
     </div>
-    <div class="card-container">
-        @for (article of articles$ | async; track article.id) {
-            <app-article-card [article]="article"></app-article-card>
-        }
-    </div>
+    @if (isLoading) {
+        <p>Chargement des données en cours...</p>
+    } @else {
+        <div class="card-container">
+            @for (article of articles; track article.id) {
+                <app-article-card [article]="article"></app-article-card>
+            }
+            @if (articles.length === 0) {
+                <p>Les thèmes auxquels vous êtes abonné n'ont aucun article lié pour l'instant.</p>
+            }
+        </div>
+    }
 </div>

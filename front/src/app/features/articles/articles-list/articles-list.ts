@@ -1,21 +1,57 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavBar } from '../../../shared/components/nav-bar/nav-bar';
 import { MatDivider } from '@angular/material/divider';
-import { ArticleCard } from "../../../shared/components/article-card/article-card";
 import { Bouton } from "../../../shared/components/bouton/bouton";
 import { ArticleService } from '../../../core/services/article';
 import { Observable } from 'rxjs';
 import { Article } from '../../../core/models/article';
 import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ArticleCard } from './article-card/article-card';
 
 @Component({
   selector: 'app-articles-list',
-  imports: [NavBar, MatDivider, ArticleCard, Bouton, CommonModule],
+  imports: [NavBar, MatDivider, ArticleCard, Bouton, CommonModule, MatIcon],
   templateUrl: './articles-list.html',
   styleUrl: './articles-list.scss',
 })
-export class ArticlesList {
+export class ArticlesList implements OnInit {
   private articleService = inject(ArticleService);
+  private destroyRef = inject(DestroyRef);
+  private cdr = inject(ChangeDetectorRef);
+  public articles$: Observable<Article[]> = this.articleService.all();
+  public articles: Article[] = [];
+  public isLoading: boolean = true;
 
-  public articles$: Observable<Article[]> = this.articleService.all(); 
+  public triDesc = true;
+
+  ngOnInit(): void {
+    this.articles$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: (data) => {
+          this.articles = data;
+          this.sort();
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Erreur de chargement des articles', err);
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  public sort(): void {
+    this.articles.sort((a: Article, b: Article) => {
+      const timeA = new Date(a.date).getTime();
+      const timeB = new Date(b.date).getTime();
+      return this.triDesc ? (timeA - timeB) : (timeB - timeA);
+    });
+    this.triDesc = !this.triDesc;
+  }
 }
