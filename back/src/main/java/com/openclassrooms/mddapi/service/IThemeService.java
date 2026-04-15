@@ -6,6 +6,6 @@ import com.openclassrooms.mddapi.model.Theme;
 
 public interface IThemeService {
 
-	List<Theme> getTopics();
+	List<Theme> getThemes();
 
 }

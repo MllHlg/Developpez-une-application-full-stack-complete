@@ -21,8 +21,8 @@ public class ThemeController {
 	}
 
 	@GetMapping()
-	public ResponseEntity<List<Theme>> getTopics() {
-		List<Theme> themes = this.themeService.getTopics();
+	public ResponseEntity<List<Theme>> getThemes() {
+		List<Theme> themes = this.themeService.getThemes();
 		return ResponseEntity.ok().body(themes);
 	}
 	
