@@ -1,6 +1,11 @@
-div {
+:host {
+    display: block;
+    width: 100%;
+}
+
+.container {
     display: flex;
-    height: 10%;
+    height: 10vh;
     width: auto;
     align-items: center;
     justify-content: space-between;

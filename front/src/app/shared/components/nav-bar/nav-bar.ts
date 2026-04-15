@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
@@ -7,4 +7,6 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.scss',
 })
-export class NavBar {}
+export class NavBar {
+  @Input() fullInfos!: boolean;
+}

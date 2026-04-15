@@ -1,4 +1,4 @@
-<app-nav-bar></app-nav-bar>
+<app-nav-bar [fullInfos]="true"></app-nav-bar>
 <mat-divider></mat-divider>
 <div class="card_container">
     @for (theme of themes$ | async; track theme.id) {

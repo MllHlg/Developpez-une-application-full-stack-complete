@@ -1,7 +1,98 @@
+@use '@angular/material' as mat;
+@use 'mixins' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  .logo-container {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    @include break(tablet) {
+      flex: none;
+    }
+
+    img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+
+      @include break(tablet) {
+        width: 90%;
+        height: 90%;
+      }
+    }
+  }
+
+  .button-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    @include break(tablet) {
+      flex-direction: row;
+      gap: 50px;
+    }
+
+    button {
+      width: 200px;
+      height: 50px;
+    }
+
+    button[matButton="elevated"] {
+      @include mat.button-overrides((protected-label-text-color: #7451EB,
+        ));
+
+      &:hover {
+        @include mat.button-overrides((protected-container-color: rgba(#7451EB, 0.1),
+            protected-state-layer-color: transparent,
+          ));
+      }
+    }
+  }
+
+  .bottom-space {
+    flex: 1;
+
+    @include break(tablet) {
+      flex: none;
+    }
+  }
+
+}
+
+/* 
 .center {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
+
+  img {
+    @include break(mobile) {
+      width: 70%;
+    }
+  }
+
+  .button-bar {
+    display: flex;
+    gap: 50px;
+
+    @include break(mobile) {
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    button {
+      width: 150px;
+    }
+  }
+} */

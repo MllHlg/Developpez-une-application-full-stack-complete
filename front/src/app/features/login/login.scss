@@ -1,0 +1,72 @@
+@use '@angular/material' as mat;
+@use 'mixins' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    app-nav-bar {
+        display: none;
+
+        @include break(tablet) {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    mat-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+    }
+
+    .logo-container {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+
+        img {
+            display: block;
+            width: 80%;
+
+            @include break(tablet) {
+                display: none;
+            }
+        }
+    }
+
+    .login-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        p {
+            font-size: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+
+            mat-form-field {
+                width: 300px;
+            }
+
+            @include mat.form-field-overrides((
+                outlined-outline-color: #7451EB,
+                outlined-focus-label-text-color: #7451EB,
+                outlined-focus-outline-color: #7451EB,
+            ));
+        }
+    }
+}
