@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 
 @Component({
@@ -7,4 +7,6 @@ import { MatButton } from '@angular/material/button';
   templateUrl: './bouton.html',
   styleUrl: './bouton.scss',
 })
-export class Bouton {}
+export class Bouton {
+  @Input() texte!: String;
+}

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemesList } from './themes-list';
+import { ThemesList } from './themes';
 
 describe('ThemesList', () => {
   let component: ThemesList;

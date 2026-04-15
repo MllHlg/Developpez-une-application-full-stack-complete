@@ -15,24 +15,19 @@ div {
         height: 100%;
         gap: 10px;
         align-items: center;
+        cursor: pointer;
 
         .logout {
             color: #A40F0F;
-            cursor: pointer;
         }
 
         .active {
             color: #7451EB;
-        }
-
-        .unactive {
-            color: black;
-            cursor: pointer;
+            cursor: auto;
         }
 
         .user {
-            height: 60%;
-            cursor: pointer;
+            height: 50%;
         }
     }
 }

@@ -1,0 +1,12 @@
+<app-nav-bar></app-nav-bar>
+<mat-divider></mat-divider>
+<div class="main-content">
+    <div class="tool-bar">
+        <app-bouton texte="Créer un article"></app-bouton>
+    </div>
+    <div class="card-container">
+        @for (article of articles$ | async; track article.id) {
+            <app-article-card [article]="article"></app-article-card>
+        }
+    </div>
+</div>
