@@ -1,6 +1,14 @@
+@use 'mixins' as *;
+
 :host {
     display: block;
     width: 100%;
+}
+
+@mixin clickable-children {
+    >*:not(.active) {
+        cursor: pointer;
+    }
 }
 
 .container {
@@ -15,24 +23,82 @@
         height: 100%;
     }
 
-    nav {
-        display: flex;
-        height: 100%;
-        gap: 10px;
-        align-items: center;
-        cursor: pointer;
+    .nav-big-screen {
+        display: none;
 
-        .logout {
-            color: #A40F0F;
-        }
-
-        .active {
-            color: #7451EB;
-            cursor: auto;
+        @include break(tablet) {
+            display: flex;
+            height: 100%;
+            gap: 10px;
+            align-items: center;
+            @include clickable-children();
         }
 
         .user {
             height: 50%;
         }
     }
+
+    .menu-icon {
+        display: block;
+        font-size: 30px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+
+        @include break(tablet) {
+            display: none;
+        }
+    }
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.menu {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: 50vw;
+    background: white;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    
+    .navigation {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+        padding: 20px;
+        font-size: 16px;
+        text-align: right;
+        @include clickable-children();
+
+        >* {
+            margin: 0;
+        }
+    }
+
+    .user {
+        width: 30%;
+        cursor: pointer;
+        padding: 10px;
+    }
+}
+
+
+.logout {
+    color: #A40F0F;
+}
+
+.active {
+    color: #7451EB;
+    cursor: default;
 }
