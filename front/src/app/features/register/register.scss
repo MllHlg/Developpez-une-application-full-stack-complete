@@ -61,12 +61,6 @@
             mat-form-field {
                 width: 300px;
             }
-
-            @include mat.form-field-overrides((
-                outlined-outline-color: #7451EB,
-                outlined-focus-label-text-color: #7451EB,
-                outlined-focus-outline-color: #7451EB,
-            ));
         }
     }
 }

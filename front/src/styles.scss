@@ -7,16 +7,21 @@
 
 html {
   height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$magenta-palette,
-        tertiary: mat.$violet-palette,
+  @include mat.theme((color: (primary: mat.$violet-palette, 
+      tertiary: mat.$azure-palette,
       ),
       typography: Roboto,
       density: 0,
-    )
-  );
+    ));
+
+  --mat-sys-surface: #ffffff;
+  --mat-sys-surface-container: #ffffff;
+  --mat-sys-surface-container-low: #ffffff;
+  --mat-sys-surface-container-high: #ffffff;
+  --mat-sys-surface-container-highest: #ffffff;
+  --mat-sys-surface-tint: transparent !important;
+  --mat-sys-primary: #7451EB;
+  --mat-sys-on-primary: #ffffff;
 }
 
 body {
@@ -36,4 +41,13 @@ body {
   margin: 0;
   height: 100%;
 }
+
 /* You can add global styles to this file, and also import other style files */
+
+/* @include mat.form-field-overrides((outlined-outline-color: #7451EB,
+    outlined-focus-label-text-color: #7451EB,
+    outlined-focus-outline-color: #7451EB,
+    outlined-caret-color: #7451EB,
+  ));
+
+@include mat.card-overrides((elevated-container-color: #F5F5F5, )); */

@@ -47,7 +47,8 @@
     }
 
     button[matButton="elevated"] {
-      @include mat.button-overrides((protected-label-text-color: #7451EB,
+      @include mat.button-overrides((protected-container-color: white,
+        protected-label-text-color: #7451EB,
         ));
 
       &:hover {

@@ -5,8 +5,8 @@
     @if (fullInfos) {
         <ng-template #navContent>
             <p class="logout" routerLink="">Se déconnecter</p>
-            <h4 routerLink="../articles" routerLinkActive="active">Articles</h4>
-            <h4 routerLink="../themes" routerLinkActive="active">Thèmes</h4>
+            <h4 routerLink="/articles" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Articles</h4>
+            <h4 routerLink="/themes" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Thèmes</h4>
         </ng-template>
 
         <nav class="nav-big-screen">
