@@ -6,4 +6,5 @@ import com.openclassrooms.mddapi.model.Article;
 
 public interface IArticleService {
     List<Article> getArticles();
+    Article findById(Long id);
 }
