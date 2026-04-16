@@ -35,5 +35,9 @@
         gap: 25px;
         width: auto;
         height: auto;
+
+        app-article-card {
+            cursor: pointer;
+        }
     }
 }

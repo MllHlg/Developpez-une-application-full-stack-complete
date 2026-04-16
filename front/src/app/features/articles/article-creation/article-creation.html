@@ -1,0 +1,30 @@
+<div class="container">
+    <app-nav-bar [fullInfos]="true"></app-nav-bar>
+    <mat-divider></mat-divider>
+    <mat-icon routerLink="/articles">keyboard_backspace</mat-icon>
+
+    <div class="form-content">
+        <p>Créer un nouvel article</p>
+
+        <form>
+            <mat-form-field appearance="outline">
+                <mat-label>Sélectionner un thème</mat-label>
+                <mat-select>
+                    @for (theme of themes$ | async; track theme.id) {
+                        <mat-option [value]="theme.titre">{{theme.titre}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Titre de l'article</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Contenu de l'article</mat-label>
+                <textarea matInput></textarea>
+            </mat-form-field>
+            <app-bouton texte="Créer" type="submit"></app-bouton>
+        </form>
+
+    </div>
+</div>

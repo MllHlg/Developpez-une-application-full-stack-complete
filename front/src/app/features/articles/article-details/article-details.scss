@@ -1,0 +1,146 @@
+@use '@angular/material' as mat;
+@use 'mixins' as *;
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin text-standard {
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.article-section {
+
+    .title-row {
+        display: flex;
+        align-items: center;
+        padding-inline: 10px;
+        gap: 15px;
+
+        .titre {
+            flex: 1;
+            font-size: 24px;
+            line-height: 30px;
+        }
+
+        mat-icon {
+            @include flex-center;
+            font-size: 50px;
+            height: 50px;
+            width: 50px;
+            cursor: pointer;
+        }
+    }
+
+    .details {
+        display: flex;
+        flex-wrap: wrap;
+        @include text-standard;
+        gap: 0 35px;
+        margin-inline: 20px;
+
+        @include break(tablet) {
+            margin-inline: 75px 20px;
+        }
+
+        p {
+            margin: 5px;
+        }
+    }
+
+    .article-content {
+        @include text-standard;
+        margin-inline: 25px;
+    }
+
+}
+
+.comment-divider {
+    margin-inline: 35px;
+}
+
+.comments-section {
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+    gap: 20px;
+
+    p {
+        @include text-standard;
+        margin: 0;
+    }
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    @include break(tablet) {
+        width: 100%;
+        align-items: center;
+    }
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+
+    @include break(tablet) {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 30px;
+        width: 80%;
+    }
+
+    .comment-box {
+        background-color: #EEEEEE;
+        border-radius: 16px;
+        padding: 20px;
+    }
+}
+
+.form-container {
+    flex-shrink: 0;
+    padding: 15px 25px;
+    background-color: white;
+
+    form {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+
+        mat-form-field {
+            flex: 1;
+            margin: 0;
+        }
+
+        mat-icon {
+            @include flex-center;
+            font-size: 30px;
+            height: 30px;
+            width: 30px;
+            color: #7451EB;
+            cursor: pointer;
+        }
+    }
+}

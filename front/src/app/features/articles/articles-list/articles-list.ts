@@ -9,10 +9,11 @@ import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ArticleCard } from './article-card/article-card';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-articles-list',
-  imports: [NavBar, MatDivider, ArticleCard, Bouton, CommonModule, MatIcon],
+  imports: [NavBar, MatDivider, ArticleCard, Bouton, CommonModule, MatIcon, RouterLink],
   templateUrl: './articles-list.html',
   styleUrl: './articles-list.scss',
 })

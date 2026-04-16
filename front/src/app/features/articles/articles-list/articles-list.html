@@ -2,7 +2,7 @@
 <mat-divider></mat-divider>
 <div class="main-content">
     <div class="tool-bar">
-        <app-bouton texte="Créer un article"></app-bouton>
+        <app-bouton texte="Créer un article" routerLink="/articles/create"></app-bouton>
         <div class="section-tri" (click)="sort()">
             <p>Trier par</p>
             @if (triDesc) {
@@ -17,7 +17,7 @@
     } @else {
         <div class="card-container">
             @for (article of articles; track article.id) {
-                <app-article-card [article]="article"></app-article-card>
+                <app-article-card [article]="article" [routerLink]="['/articles', article.id]"></app-article-card>
             }
             @if (articles.length === 0) {
                 <p>Les thèmes auxquels vous êtes abonné n'ont aucun article lié pour l'instant.</p>
