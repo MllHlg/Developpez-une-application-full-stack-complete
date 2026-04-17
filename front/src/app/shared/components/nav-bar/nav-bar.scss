@@ -32,10 +32,19 @@
             gap: 10px;
             align-items: center;
             @include clickable-children();
-        }
 
-        .user {
-            height: 50%;
+            .user {
+                font-size: 5vh;
+                height: 5vh;
+                width: 5vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .user:not(.active) {
+                color: #D9D9D9;
+            }
         }
     }
 
@@ -70,7 +79,7 @@
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-between;
-    
+
     .navigation {
         display: flex;
         flex-direction: column;
@@ -87,9 +96,15 @@
     }
 
     .user {
-        width: 30%;
-        cursor: pointer;
+        font-size: 60px;
+        width: 60px;
+        height: 60px;
         padding: 10px;
+    }
+
+    .user:not(.active) {
+        color: #D9D9D9;
+        cursor: pointer;
     }
 }
 

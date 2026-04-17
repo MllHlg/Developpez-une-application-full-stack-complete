@@ -7,8 +7,8 @@
 
 html {
   height: 100%;
-  @include mat.theme((color: (primary: mat.$violet-palette, 
-      tertiary: mat.$azure-palette,
+  @include mat.theme((color: (primary: mat.$violet-palette,
+        tertiary: mat.$azure-palette,
       ),
       typography: Roboto,
       density: 0,
@@ -44,10 +44,4 @@ body {
 
 /* You can add global styles to this file, and also import other style files */
 
-/* @include mat.form-field-overrides((outlined-outline-color: #7451EB,
-    outlined-focus-label-text-color: #7451EB,
-    outlined-focus-outline-color: #7451EB,
-    outlined-caret-color: #7451EB,
-  ));
-
-@include mat.card-overrides((elevated-container-color: #F5F5F5, )); */
+@include mat.card-overrides((elevated-container-color: #F5F5F5, ));

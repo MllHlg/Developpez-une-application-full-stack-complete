@@ -3,29 +3,29 @@
     <img class="logo" src="/logo_p6.png" alt="logo" />
 
     @if (fullInfos) {
-        <ng-template #navContent>
-            <p class="logout" routerLink="">Se déconnecter</p>
-            <h4 routerLink="/articles" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Articles</h4>
-            <h4 routerLink="/themes" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Thèmes</h4>
-        </ng-template>
+    <ng-template #navContent>
+        <p class="logout" routerLink="">Se déconnecter</p>
+        <h4 routerLink="/articles" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Articles</h4>
+        <h4 routerLink="/themes" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Thèmes</h4>
+    </ng-template>
 
-        <nav class="nav-big-screen">
+    <nav class="nav-big-screen">
+        <ng-container *ngTemplateOutlet="navContent"></ng-container>
+        <mat-icon class="user" routerLink="/user" routerLinkActive="active">account_circle</mat-icon>
+    </nav>
+
+    @if (isMenuOpen) {
+    <div class="backdrop" (click)="isMenuOpen = false"></div>
+
+    <div class="menu">
+        <div class="navigation">
             <ng-container *ngTemplateOutlet="navContent"></ng-container>
-            <img class="user" src="/user.svg" alt="user">
-        </nav>
-
-        @if (isMenuOpen) {
-            <div class="backdrop" (click)="isMenuOpen = false"></div>
-
-            <div class="menu">
-                <div class="navigation">
-                    <ng-container *ngTemplateOutlet="navContent"></ng-container>
-                </div>
-                <img class="user" src="/user.svg" alt="user">
-            </div>
-        } @else {
-            <mat-icon class="menu-icon" (click)="isMenuOpen = true">menu</mat-icon>
-        }
+        </div>
+        <mat-icon class="user" routerLink="/user" routerLinkActive="active">account_circle</mat-icon>
+    </div>
+    } @else {
+    <mat-icon class="menu-icon" (click)="isMenuOpen = true">menu</mat-icon>
+    }
     }
 
 </div>

@@ -6,6 +6,7 @@ import { Login } from './features/login/login';
 import { Register } from './features/register/register';
 import { ArticleCreation } from './features/articles/article-creation/article-creation';
 import { ArticleDetails } from './features/articles/article-details/article-details';
+import { Me } from './features/me/me';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -14,5 +15,6 @@ export const routes: Routes = [
     {path: 'login', component: Login},
     {path: 'register', component: Register},
     {path: 'articles/create', component: ArticleCreation},
-    {path: 'articles/:id', component: ArticleDetails}
+    {path: 'articles/:id', component: ArticleDetails},
+    {path: 'user', component: Me}
 ];
