@@ -39,7 +39,7 @@ public class User {
     private String email;
 
     @NonNull
-    @Size(max = 120)
+    @Size(min = 8, max = 150)
     @Column(nullable = false)
     private String password;
     
