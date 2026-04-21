@@ -9,8 +9,6 @@ import { Observable } from 'rxjs';
 import { User } from '../../core/models/user';
 import { CommonModule } from '@angular/common';
 import { ThemeCard } from "../../shared/components/theme-card/theme-card";
-import { ThemeService } from '../../core/services/theme';
-import { Theme } from '../../core/models/theme';
 
 @Component({
   selector: 'app-me',

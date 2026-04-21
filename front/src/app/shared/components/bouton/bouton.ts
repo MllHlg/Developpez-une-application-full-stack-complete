@@ -9,4 +9,5 @@ import { MatButton } from '@angular/material/button';
 })
 export class Bouton {
   @Input() texte!: String;
+  @Input() disable?: boolean = false;
 }
