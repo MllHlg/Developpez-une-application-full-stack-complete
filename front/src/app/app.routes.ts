@@ -7,14 +7,58 @@ import { Register } from './features/register/register';
 import { ArticleCreation } from './features/articles/article-creation/article-creation';
 import { ArticleDetails } from './features/articles/article-details/article-details';
 import { Me } from './features/me/me';
+import { UnauthGuard } from './core/guards/unauth';
+import { AuthGuard } from './core/guards/auth';
+import { NotFound } from './features/not-found/not-found';
 
 export const routes: Routes = [
-    {path: '', component: HomeComponent},
-    {path: 'themes', component: ThemesList},
-    {path: 'articles', component: ArticlesList},
-    {path: 'login', component: Login},
-    {path: 'register', component: Register},
-    {path: 'articles/create', component: ArticleCreation},
-    {path: 'articles/:id', component: ArticleDetails},
-    {path: 'user', component: Me}
+    {
+        path: '',
+        component: HomeComponent,
+    },
+    {
+        path: 'login',
+        canActivate: [UnauthGuard],
+        component: Login,
+
+    },
+    {
+        path: 'register',
+        canActivate: [UnauthGuard],
+        component: Register,
+
+    },
+    {
+        path: 'articles',
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: '',
+                component: ArticlesList,
+                data: { title: 'Articles' },
+            },
+            {
+                path: ':id',
+                component: ArticleDetails,
+                data: { title: 'Articles - detail' },
+            },
+            {
+                path: 'create',
+                component: ArticleCreation,
+                data: { title: 'Articles - create' },
+            },
+        ],
+    },
+    {
+        path: 'themes',
+        canActivate: [AuthGuard],
+        component: ThemesList,
+    },
+    {
+        path: 'user',
+        canActivate: [AuthGuard],
+        component: Me,
+    },
+    { path: '404', component: NotFound },
+    { path: '**', redirectTo: '404' },
 ];

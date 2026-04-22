@@ -12,6 +12,8 @@ import { AuthService } from '../../core/services/auth';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthSuccess } from '../../core/models/authSuccess';
 import { passwordValidator } from '../../shared/validators/password';
+import { SessionService } from '../../core/services/session';
+import { SessionInformations } from '../../core/models/sessionInformations';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +25,7 @@ export class Login {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private sessionService = inject(SessionService);
 
   public onError = false;
 
@@ -50,7 +53,10 @@ export class Login {
     this.authService.login(loginRequest)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (_ : AuthSuccess) => this.router.navigate(['/articles']),
+        next: (response: SessionInformations) => {
+          this.sessionService.logIn(response);
+          this.router.navigate(['/sessions']);
+        },
         error: _ => this.onError = true,
       });
   }

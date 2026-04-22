@@ -42,9 +42,14 @@ public class UserService implements IUserService, UserDetailsService {
         this.userRepository.save(user);
     }
 
+    public User findByUsername(String username) throws UsernameNotFoundException {
+        User user = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Le nom d'utilisateur " + username + " ne correspond à aucun utilisateur"));
+        return user;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String identifiant) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameOrEmail(identifiant, identifiant).orElseThrow(() -> new UsernameNotFoundException("L'identifiant' " + identifiant + " ne correspond à aucun utilisateur"));
+        User user = this.userRepository.findByUsernameOrEmail(identifiant, identifiant).orElseThrow(() -> new UsernameNotFoundException("L'identifiant " + identifiant + " ne correspond à aucun utilisateur"));
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
