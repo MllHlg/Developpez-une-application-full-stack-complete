@@ -1,7 +1,9 @@
 package com.openclassrooms.mddapi.service;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,21 +13,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.openclassrooms.mddapi.dto.UserCreateDTO;
+import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.mapper.UserCreateMapper;
+import com.openclassrooms.mddapi.model.Theme;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 @Service
 public class UserService implements IUserService, UserDetailsService {
 
+    private final ThemeService themeService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserCreateMapper userCreateMapper;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserCreateMapper userCreateMapper) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserCreateMapper userCreateMapper, ThemeService themeService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userCreateMapper = userCreateMapper;
+        this.themeService = themeService;
     }
 
     public void createUser(UserCreateDTO dto) {
@@ -47,10 +53,42 @@ public class UserService implements IUserService, UserDetailsService {
         return user;
     }
 
+    public User findById(Long id) {
+        User user = this.userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new ResourceNotFoundException("Utilisateur non trouvé");
+        }
+        return user;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String identifiant) throws UsernameNotFoundException {
         User user = this.userRepository.findByUsernameOrEmail(identifiant, identifiant).orElseThrow(() -> new UsernameNotFoundException("L'identifiant " + identifiant + " ne correspond à aucun utilisateur"));
-
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
+
+    public void abonnement(Long theme_id, Long user_id) throws BadRequestException {
+		Theme theme = this.themeService.findById(theme_id);
+		User user = this.findById(user_id);
+
+		boolean alreadySub = user.getThemes().stream().anyMatch(o -> o.getId().equals(theme_id));
+		if (alreadySub) {
+			throw new BadRequestException();
+		}
+
+		user.getThemes().add(theme);
+		this.userRepository.save(user);
+	}
+
+    public void desabonnement(Long theme_id, Long user_id) throws BadRequestException {
+		User user = this.findById(user_id);
+
+		boolean alreadySub = user.getThemes().stream().anyMatch(o -> o.getId().equals(theme_id));
+		if (!alreadySub) {
+			throw new BadRequestException();
+		}
+
+		user.setThemes(user.getThemes().stream().filter(theme -> !theme.getId().equals(theme_id)).collect(Collectors.toList()));
+		this.userRepository.save(user);
+	}
 }

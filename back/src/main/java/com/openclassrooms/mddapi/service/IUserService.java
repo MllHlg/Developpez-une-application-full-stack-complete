@@ -1,5 +1,14 @@
 package com.openclassrooms.mddapi.service;
 
-public interface IUserService {
+import org.apache.coyote.BadRequestException;
 
+import com.openclassrooms.mddapi.dto.UserCreateDTO;
+import com.openclassrooms.mddapi.model.User;
+
+public interface IUserService {
+    void createUser(UserCreateDTO dto);
+    User findByUsername(String username);
+    User findById(Long id);
+    void abonnement(Long theme_id, Long user_id) throws BadRequestException ;
+    void desabonnement(Long theme_id, Long user_id) throws BadRequestException ;
 }
