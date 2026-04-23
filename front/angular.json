@@ -32,7 +32,10 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
             },
-            "styles": ["src/styles.scss"]
+            "styles": ["src/styles.scss"],
+            "polyfills": [
+              "zone.js"
+            ]
           },
           "configurations": {
             "production": {

@@ -7,8 +7,8 @@ import { Register } from './features/register/register';
 import { ArticleCreation } from './features/articles/article-creation/article-creation';
 import { ArticleDetails } from './features/articles/article-details/article-details';
 import { Me } from './features/me/me';
-import { UnauthGuard } from './core/guards/unauth';
-import { AuthGuard } from './core/guards/auth';
+import { unauthGuard } from './core/guards/unauth';
+import { authGuard } from './core/guards/auth';
 import { NotFound } from './features/not-found/not-found';
 
 export const routes: Routes = [
@@ -18,19 +18,19 @@ export const routes: Routes = [
     },
     {
         path: 'login',
-        canActivate: [UnauthGuard],
+        canActivate: [unauthGuard],
         component: Login,
 
     },
     {
         path: 'register',
-        canActivate: [UnauthGuard],
+        canActivate: [unauthGuard],
         component: Register,
 
     },
     {
         path: 'articles',
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         children: [
             {
                 path: '',
@@ -38,25 +38,25 @@ export const routes: Routes = [
                 data: { title: 'Articles' },
             },
             {
-                path: ':id',
-                component: ArticleDetails,
-                data: { title: 'Articles - detail' },
-            },
-            {
                 path: 'create',
                 component: ArticleCreation,
                 data: { title: 'Articles - create' },
+            },
+            {
+                path: ':id',
+                component: ArticleDetails,
+                data: { title: 'Articles - detail' },
             },
         ],
     },
     {
         path: 'themes',
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         component: ThemesList,
     },
     {
         path: 'user',
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         component: Me,
     },
     { path: '404', component: NotFound },

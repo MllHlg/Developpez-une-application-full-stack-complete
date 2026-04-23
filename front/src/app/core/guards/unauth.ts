@@ -1,17 +1,14 @@
-import { CanActivate, Router } from "@angular/router";
-import { SessionService } from "../services/session";
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { SessionService } from '../services/session';
 
-export class UnauthGuard implements CanActivate {
-    constructor(
-        private router: Router,
-        private sessionService: SessionService,
-    ) {}
+export const unauthGuard: CanActivateFn = () => {
+  const router = inject(Router);
+  const sessionService = inject(SessionService);
 
-    public canActivate(): boolean {
-        if (this.sessionService.isLogged) {
-            this.router.navigate(['articles']);
-            return false;
-        }
-        return true;
-    }
-}
+  if (sessionService.isLogged) {
+    router.navigate(['articles']);
+    return false;
+  }
+  return true;
+};
