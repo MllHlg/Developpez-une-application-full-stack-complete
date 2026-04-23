@@ -4,5 +4,5 @@ export interface User {
     id: number;
     email: string;
     username: string;
-    abonnements: Theme[];
+    themes: Theme[];
 }

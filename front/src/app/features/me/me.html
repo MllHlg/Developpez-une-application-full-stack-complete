@@ -8,14 +8,14 @@
 
         <h1>Profil utilisateur</h1>
 
-        <form>
+        <form [formGroup]="form" (ngSubmit)="modifier()">
             <mat-form-field appearance="outline">
-                <mat-label>{{user.username}}</mat-label>
-                <input matInput>
+                <mat-label>Nom d'utilisateur</mat-label>
+                <input matInput formControlName="username">
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>{{user.email}}</mat-label>
-                <input matInput>
+                <mat-label>Adresse mail</mat-label>
+                <input matInput formControlName="email">
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Mot de passe</mat-label>
@@ -32,8 +32,9 @@
 
         <div class="theme-card-list">
 
-            @for (theme of user.abonnements; track theme.id) {
-            <app-theme-card [theme]="theme" buttonText="Se désabonner"></app-theme-card>
+            @for (theme of user.themes; track theme.id) {
+            <app-theme-card [theme]="theme" buttonText="Se désabonner"
+                (buttonAction)="desabonnement(theme.id!)"></app-theme-card>
             }
 
         </div>

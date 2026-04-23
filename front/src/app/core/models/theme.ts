@@ -1,5 +1,6 @@
 export interface Theme {
     id?: number;
-    titre: String;
-    description: String;
+    titre: string;
+    description: string;
+    abonnement: boolean;
 }

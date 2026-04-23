@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 
 @Component({
@@ -8,6 +8,7 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './bouton.scss',
 })
 export class Bouton {
-  @Input() texte!: String;
-  @Input() disable?: boolean = false;
+  @Input() texte!: string;
+  @Input() disable = false;
+  @Output() action = new EventEmitter<void>();
 }

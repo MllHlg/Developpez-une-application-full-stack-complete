@@ -4,46 +4,51 @@
 
     @if(article$ | async; as article) {
 
-        <div class="content">
-            <section class="article-section">
-                <div class="title-row">
-                    <mat-icon routerLink="/articles">keyboard_backspace</mat-icon>
-                    <p class="titre">{{article.titre}}</p>
-                </div>
-                <div class="details">
-                    <p>{{article.date}}</p>
-                    <p>{{article.auteur}}</p>
-                    <p>{{article.theme}}</p>
-                </div>
-                <p class="article-content">{{article.texte}}</p>
-            </section>
+    <div class="content">
+        <section class="article-section">
+            <div class="title-row">
+                <mat-icon routerLink="/articles">keyboard_backspace</mat-icon>
+                <p class="titre">{{article.titre}}</p>
+            </div>
+            <div class="details">
+                <p>{{article.date}}</p>
+                <p>{{article.auteur}}</p>
+                <p>{{article.theme}}</p>
+            </div>
+            <p class="article-content">{{article.texte}}</p>
+        </section>
 
-            <mat-divider class="comment-divider"></mat-divider>
+        <mat-divider class="comment-divider"></mat-divider>
 
-            <section class="comments-section">
-                <p>Commentaires</p>
-                <div class="comments-list">
-                    @for (comment of article.commentaires; track comment.id) {
-                        <div class="comment">
-                            <p>{{comment.auteur}}</p>
-                            <div class="comment-box">
-                                <p>{{comment.comment}}</p>
-                            </div>
-                        </div>
-                    }
+        <section class="comments-section">
+            <p>Commentaires</p>
+            <div class="comments-list">
+                @for (comment of article.commentaires; track comment.id) {
+                <div class="comment">
+                    <p>{{comment.auteur}}</p>
+                    <div class="comment-box">
+                        <p>{{comment.comment}}</p>
+                    </div>
                 </div>
-            </section>
-        </div>
+                }
+            </div>
+        </section>
+    </div>
 
-        <div class="form-container">
-            <form>
-                <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>Écrivez ici votre commentaire</mat-label>
-                    <textarea matInput></textarea>
-                </mat-form-field>
+    <div class="form-container">
+        <form [formGroup]="form" (ngSubmit)="post()">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Écrivez ici votre commentaire</mat-label>
+                <textarea matInput formControlName="comment"></textarea>
+            </mat-form-field>
+            <button matIconButton type="submit">
                 <mat-icon>send</mat-icon>
-            </form>
-        </div>
+            </button>
+            @if (onError) {
+            <p class="error" data-testid="error-message">An error occurred</p>
+            }
+        </form>
+    </div>
 
     }
 </div>

@@ -55,7 +55,7 @@ export class Login {
       .subscribe({
         next: (response: SessionInformations) => {
           this.sessionService.logIn(response);
-          this.router.navigate(['/sessions']);
+          this.router.navigate(['/articles']);
         },
         error: _ => this.onError = true,
       });

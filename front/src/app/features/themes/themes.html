@@ -3,7 +3,7 @@
 <div class="main-content">
     <div class="card_container">
         @for (theme of themes$ | async; track theme.id) {
-            <app-theme-card [theme]="theme" buttonText="S'abonner"></app-theme-card>
+            <app-theme-card [theme]="theme" [buttonText]="theme.abonnement ? 'Déjà abonné' : 'S\'abonner'" [disable]="theme.abonnement" (buttonAction)="abonnement(theme.id!)"></app-theme-card>
         }
     </div>
 </div>

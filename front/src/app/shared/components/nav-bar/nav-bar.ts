@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink, RouterLinkActive } from "@angular/router";
+import { SessionService } from '../../../core/services/session';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,6 +14,12 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 })
 export class NavBar {
   @Input() fullInfos!: boolean;
+  private sessionService = inject(SessionService);
+  private destroyRef = inject(DestroyRef);
 
   public isMenuOpen = false;
+
+  public logout() {
+    this.sessionService.logOut();
+  }
 }

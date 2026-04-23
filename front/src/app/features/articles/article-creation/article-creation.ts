@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { NavBar } from '../../../shared/components/nav-bar/nav-bar';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
@@ -11,15 +11,52 @@ import { Observable } from 'rxjs';
 import { Theme } from '../../../core/models/theme';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { articleCreate } from '../../../core/models/articleCreate';
+import { ArticleService } from '../../../core/services/article';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-article-creation',
-  imports: [RouterLink, NavBar, MatDivider, MatIcon, MatFormFieldModule, Bouton, MatInput, MatSelectModule, CommonModule],
+  imports: [RouterLink, NavBar, MatDivider, MatIcon, MatFormFieldModule, Bouton, MatInput, MatSelectModule, CommonModule, ReactiveFormsModule],
   templateUrl: './article-creation.html',
   styleUrl: './article-creation.scss',
 })
 export class ArticleCreation {
   private themeService = inject(ThemeService);
+  private articleService = inject(ArticleService);
+  private fb = inject(FormBuilder);
+  private destroyRef = inject(DestroyRef)
+  public onError = false;
 
   public themes$: Observable<Theme[]> = this.themeService.all();
+
+  public form = this.fb.group({
+    titre: [
+      '',
+      [Validators.required,
+      Validators.maxLength(50),
+      ]
+    ],
+    theme: [
+      null as number | null,
+      [Validators.required]
+    ],
+    texte: [
+      '',
+      [Validators.required,
+      Validators.maxLength(2500),
+      ]
+    ],
+  })
+
+  public create(): void {
+    const article = this.form.value as articleCreate;
+    this.articleService.create(article)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (_: void) => this.form.reset(),
+        error: _ => this.onError = true,
+      });
+  }
 }

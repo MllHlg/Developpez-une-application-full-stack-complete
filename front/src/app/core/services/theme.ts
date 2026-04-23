@@ -14,4 +14,12 @@ export class ThemeService {
   public all(): Observable<Theme[]> {
     return this.httpClient.get<Theme[]>(this.pathService);
   }
+
+  public abonnement(id: number): Observable<ArrayBuffer> {
+    return this.httpClient.post<ArrayBuffer>(`${this.pathService}/${id}/abonnement`, null);
+  }
+
+  public desabonnement(id: number): Observable<ArrayBuffer> {
+    return this.httpClient.delete<ArrayBuffer>(`${this.pathService}/${id}/abonnement`);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { Theme } from '../../../core/models/theme';
 import { Bouton } from '../bouton/bouton';
@@ -12,4 +12,6 @@ import { Bouton } from '../bouton/bouton';
 export class ThemeCard {
   @Input() theme!: Theme;
   @Input() buttonText!: string;
+  @Input() disable = false;
+  @Output() buttonAction = new EventEmitter<void>();
 }
