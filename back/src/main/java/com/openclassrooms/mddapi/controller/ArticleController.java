@@ -8,7 +8,6 @@ import com.openclassrooms.mddapi.dto.ArticleCreateDTO;
 import com.openclassrooms.mddapi.dto.ArticleDTO;
 import com.openclassrooms.mddapi.dto.ArticleDetailDTO;
 import com.openclassrooms.mddapi.dto.CommentCreateDTO;
-import com.openclassrooms.mddapi.dto.StandardResponse;
 import com.openclassrooms.mddapi.mapper.ArticleDetailMapper;
 import com.openclassrooms.mddapi.mapper.ArticleMapper;
 import com.openclassrooms.mddapi.model.Article;
@@ -17,6 +16,7 @@ import com.openclassrooms.mddapi.service.IArticleService;
 import com.openclassrooms.mddapi.service.ICommentService;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -61,16 +61,16 @@ public class ArticleController {
     }
 
     @PostMapping()
-    public ResponseEntity<StandardResponse> createArticle(@RequestBody ArticleCreateDTO articleCreateDTO, Authentication authentication) {    
+    public ResponseEntity<Map<String, String>> createArticle(@RequestBody ArticleCreateDTO articleCreateDTO, Authentication authentication) {    
         String username = authentication.getName();
         this.articleService.create(username, articleCreateDTO);
-        return ResponseEntity.ok(new StandardResponse("Article créé"));
+        return ResponseEntity.ok(Map.of("message","Article créé"));
     }
 
     @PostMapping("/{id}/message")
-    public ResponseEntity<StandardResponse> createMessage(@PathVariable("id") final Long id, @RequestBody CommentCreateDTO texte, Authentication authentication) { 
+    public ResponseEntity<Map<String, String>> createMessage(@PathVariable("id") final Long id, @RequestBody CommentCreateDTO texte, Authentication authentication) { 
         User user = this.userService.findByUsername(authentication.getName());
         this.commentService.create(texte, user, id);       
-        return ResponseEntity.ok(new StandardResponse("Commentaire envoyé"));
+        return ResponseEntity.ok(Map.of("message","Commentaire envoyé"));
     }
 }

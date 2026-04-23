@@ -29,13 +29,13 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 public class UserService implements IUserService, UserDetailsService {
 
     private final JWTService JWTService;
-    private final ThemeService themeService;
+    private final IThemeService themeService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserCreateMapper userCreateMapper;
 
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
-            UserCreateMapper userCreateMapper, ThemeService themeService, JWTService JWTService) {
+            UserCreateMapper userCreateMapper, IThemeService themeService, JWTService JWTService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userCreateMapper = userCreateMapper;

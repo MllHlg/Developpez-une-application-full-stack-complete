@@ -1,15 +1,16 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.service.UserService;
+import com.openclassrooms.mddapi.service.IUserService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.configuration.service.JWTService;
 import com.openclassrooms.mddapi.dto.AuthResponseDTO;
-import com.openclassrooms.mddapi.dto.StandardResponse;
 import com.openclassrooms.mddapi.dto.UserCreateDTO;
 import com.openclassrooms.mddapi.dto.UserLoginDTO;
 import com.openclassrooms.mddapi.model.User;
+
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,11 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    private final UserService userService;
+    private final IUserService userService;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthController(JWTService jwtService, AuthenticationManager authenticationManager, UserService userService) {
+    public AuthController(JWTService jwtService, AuthenticationManager authenticationManager, IUserService userService) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
@@ -48,9 +49,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<StandardResponse> register(@RequestBody UserCreateDTO dto) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody UserCreateDTO dto) {
         this.userService.createUser(dto);
-        return ResponseEntity.ok(new StandardResponse("Utilisateur créé !"));
+        return ResponseEntity.ok(Map.of("message", "Utilisateur créé !"));
     }
 
 }

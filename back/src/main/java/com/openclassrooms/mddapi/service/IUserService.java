@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.service;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.openclassrooms.mddapi.dto.UserCreateDTO;
 import com.openclassrooms.mddapi.dto.UserUpdateDTO;
@@ -13,4 +15,5 @@ public interface IUserService {
     void abonnement(Long theme_id, Long user_id) throws BadRequestException ;
     void desabonnement(Long theme_id, Long user_id) throws BadRequestException ;
     String update(Long id, UserUpdateDTO dto);
+    UserDetails loadUserByUsername(String identifiant) throws UsernameNotFoundException;
 }

@@ -14,11 +14,11 @@ import com.openclassrooms.mddapi.repository.ArticleRepository;
 @Service
 public class ArticleService implements IArticleService {
 
-	private final ThemeService themeService;
+	private final IThemeService themeService;
     private final IUserService userService;
     private ArticleRepository articleRepository;
 
-	public ArticleService(ArticleRepository articleRepository, IUserService userService, ThemeService themeService) {
+	public ArticleService(ArticleRepository articleRepository, IUserService userService, IThemeService themeService) {
 		this.articleRepository = articleRepository;
         this.userService = userService;
         this.themeService = themeService;

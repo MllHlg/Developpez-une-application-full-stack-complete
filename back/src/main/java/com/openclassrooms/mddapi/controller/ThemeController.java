@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.mddapi.dto.StandardResponse;
-import com.openclassrooms.mddapi.model.Theme;
+import com.openclassrooms.mddapi.dto.ThemeDTO;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.IThemeService;
 import com.openclassrooms.mddapi.service.IUserService;
@@ -33,22 +33,23 @@ public class ThemeController {
 	}
 
 	@GetMapping()
-	public ResponseEntity<List<Theme>> getThemes() {
-		List<Theme> themes = this.themeService.getThemes();
+	public ResponseEntity<List<ThemeDTO>> getThemes(Authentication authentication) {
+		User user = this.userService.findByUsername(authentication.getName());
+		List<ThemeDTO> themes = this.themeService.getThemes(user);
 		return ResponseEntity.ok().body(themes);
 	}
 
 	@PostMapping("/{id}/abonnement")
-	public ResponseEntity<StandardResponse> abonnement(@PathVariable("id") final long id, Authentication authentication) throws BadRequestException {
+	public ResponseEntity<Map<String, String>> abonnement(@PathVariable("id") final long id, Authentication authentication) throws BadRequestException {
 		User user = this.userService.findByUsername(authentication.getName());
 		this.userService.abonnement(id, user.getId());
-		return ResponseEntity.ok(new StandardResponse("Abonnement confirmé"));
+		return ResponseEntity.ok(Map.of("message","Abonnement confirmé"));
 	}
 	
 	@DeleteMapping("/{id}/abonnement")
-	public ResponseEntity<StandardResponse> desabonnement(@PathVariable("id") final long id, Authentication authentication) throws BadRequestException {
+	public ResponseEntity<Map<String, String>> desabonnement(@PathVariable("id") final long id, Authentication authentication) throws BadRequestException {
 		User user = this.userService.findByUsername(authentication.getName());
 		this.userService.desabonnement(id, user.getId());
-		return ResponseEntity.ok(new StandardResponse("Désabonnement confirmé"));
+		return ResponseEntity.ok(Map.of("message","Désabonnement confirmé"));
 	}
 }

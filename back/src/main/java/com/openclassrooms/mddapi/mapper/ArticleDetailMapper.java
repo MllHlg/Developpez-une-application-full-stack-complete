@@ -8,16 +8,16 @@ import org.springframework.stereotype.Component;
 
 import com.openclassrooms.mddapi.dto.ArticleDetailDTO;
 import com.openclassrooms.mddapi.model.Article;
-import com.openclassrooms.mddapi.service.ArticleService;
-import com.openclassrooms.mddapi.service.CommentService;
+import com.openclassrooms.mddapi.service.IArticleService;
+import com.openclassrooms.mddapi.service.ICommentService;
 
 @Component
-@Mapper(componentModel = "spring", uses = { ArticleService.class, CommentService.class })
+@Mapper(componentModel = "spring", uses = { IArticleService.class, ICommentService.class })
 public abstract class ArticleDetailMapper  implements EntityMapper<ArticleDetailDTO, Article> {
     @Autowired
-    ArticleService articleService;
+    IArticleService articleService;
     @Autowired
-    CommentService commentService;
+    ICommentService commentService;
 
     @Mappings({
         @Mapping(target = "auteur", ignore = true),
