@@ -1,6 +1,9 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.service.IUserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,14 +64,14 @@ public class ArticleController {
     }
 
     @PostMapping()
-    public ResponseEntity<Map<String, String>> createArticle(@RequestBody ArticleCreateDTO articleCreateDTO, Authentication authentication) {    
+    public ResponseEntity<Map<String, String>> createArticle(@RequestBody @Valid ArticleCreateDTO articleCreateDTO, Authentication authentication) {    
         String username = authentication.getName();
         this.articleService.create(username, articleCreateDTO);
         return ResponseEntity.ok(Map.of("message","Article créé"));
     }
 
     @PostMapping("/{id}/message")
-    public ResponseEntity<Map<String, String>> createMessage(@PathVariable("id") final Long id, @RequestBody CommentCreateDTO texte, Authentication authentication) { 
+    public ResponseEntity<Map<String, String>> createMessage(@PathVariable("id") final Long id, @RequestBody @Valid CommentCreateDTO texte, Authentication authentication) { 
         User user = this.userService.findByUsername(authentication.getName());
         this.commentService.create(texte, user, id);       
         return ResponseEntity.ok(Map.of("message","Commentaire envoyé"));

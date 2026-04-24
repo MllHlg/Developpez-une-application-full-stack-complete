@@ -36,10 +36,7 @@ public class ThemeService implements IThemeService {
 	}
 
 	public Theme findById(Long id) {
-		Theme theme = this.themeRepository.findById(id).orElse(null);
-		if (theme == null) {
-			throw new ResourceNotFoundException("Thème non trouvé");
-		}
+		Theme theme = this.themeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Thème non trouvé"));
 		return theme;
 	}
 }

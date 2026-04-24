@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.ArticleCreateDTO;
+import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.Theme;
 import com.openclassrooms.mddapi.model.User;
@@ -15,13 +16,13 @@ import com.openclassrooms.mddapi.repository.ArticleRepository;
 public class ArticleService implements IArticleService {
 
 	private final IThemeService themeService;
-    private final IUserService userService;
-    private ArticleRepository articleRepository;
+	private final IUserService userService;
+	private ArticleRepository articleRepository;
 
 	public ArticleService(ArticleRepository articleRepository, IUserService userService, IThemeService themeService) {
 		this.articleRepository = articleRepository;
-        this.userService = userService;
-        this.themeService = themeService;
+		this.userService = userService;
+		this.themeService = themeService;
 	}
 
 	public List<Article> getArticles(User user) {
@@ -33,7 +34,8 @@ public class ArticleService implements IArticleService {
 	}
 
 	public Article findById(Long id) {
-		Article article = articleRepository.findById(id).orElse(null);
+		Article article = articleRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Article non trouvé"));
 		return article;
 	}
 

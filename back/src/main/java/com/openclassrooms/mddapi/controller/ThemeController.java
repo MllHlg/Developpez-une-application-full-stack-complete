@@ -3,7 +3,6 @@ package com.openclassrooms.mddapi.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,14 +39,14 @@ public class ThemeController {
 	}
 
 	@PostMapping("/{id}/abonnement")
-	public ResponseEntity<Map<String, String>> abonnement(@PathVariable("id") final long id, Authentication authentication) throws BadRequestException {
+	public ResponseEntity<Map<String, String>> abonnement(@PathVariable("id") final long id, Authentication authentication) {
 		User user = this.userService.findByUsername(authentication.getName());
 		this.userService.abonnement(id, user.getId());
 		return ResponseEntity.ok(Map.of("message","Abonnement confirmé"));
 	}
 	
 	@DeleteMapping("/{id}/abonnement")
-	public ResponseEntity<Map<String, String>> desabonnement(@PathVariable("id") final long id, Authentication authentication) throws BadRequestException {
+	public ResponseEntity<Map<String, String>> desabonnement(@PathVariable("id") final long id, Authentication authentication) {
 		User user = this.userService.findByUsername(authentication.getName());
 		this.userService.desabonnement(id, user.getId());
 		return ResponseEntity.ok(Map.of("message","Désabonnement confirmé"));

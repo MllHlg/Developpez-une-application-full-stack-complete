@@ -1,6 +1,9 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.service.IUserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody UserLoginDTO dto) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid UserLoginDTO dto) {
         Authentication authentication = this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getIdentifiant(), dto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -49,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody UserCreateDTO dto) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody @Valid UserCreateDTO dto) {
         this.userService.createUser(dto);
         return ResponseEntity.ok(Map.of("message", "Utilisateur créé !"));
     }

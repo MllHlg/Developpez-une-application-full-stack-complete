@@ -22,7 +22,7 @@ public class Theme {
 	
 	@NotBlank
 	@Size(max = 50)
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String titre;
 
 	@NotNull

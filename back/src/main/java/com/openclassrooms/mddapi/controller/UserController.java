@@ -2,6 +2,9 @@ package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.mapper.UserDetailMapper;
 import com.openclassrooms.mddapi.service.IUserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +41,7 @@ public class UserController {
     }
     
     @PutMapping("")
-    public ResponseEntity<AuthResponseDTO> updateUser(@RequestBody UserUpdateDTO userDTO, Authentication authentication) {
+    public ResponseEntity<AuthResponseDTO> updateUser(@RequestBody @Valid UserUpdateDTO userDTO, Authentication authentication) {
         User user = this.userService.findByUsername(authentication.getName());
         String token = this.userService.update(user.getId(), userDTO);
         AuthResponseDTO response = new AuthResponseDTO(token, user.getId(), userDTO.getUsername(), userDTO.getEmail());

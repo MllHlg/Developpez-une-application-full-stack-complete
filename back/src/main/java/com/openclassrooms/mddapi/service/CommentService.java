@@ -29,11 +29,6 @@ public class CommentService implements ICommentService {
         return this.commentMapper.toDto(comments);
     }
 
-    public Comment findById(Long id) {
-        Comment comment = this.commentRepository.findById(id).orElse(null);
-        return comment;
-    }
-
     public void create(CommentCreateDTO texte, User user, Long article_id) {
         Comment comment = new Comment();
         Article article = this.articleService.findById(article_id);
