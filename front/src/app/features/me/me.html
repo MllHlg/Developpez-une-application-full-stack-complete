@@ -22,6 +22,9 @@
                 <input matInput type="password" formControlName="password">
             </mat-form-field>
             <app-bouton texte="Sauvegarder" type="submit"></app-bouton>
+            @if (errorMessage) {
+                <p class="error" data-testid="error-message">{{errorMessage}}</p>
+            }
         </form>
 
     </section>

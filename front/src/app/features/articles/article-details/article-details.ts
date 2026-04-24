@@ -12,6 +12,7 @@ import { ArticleDetail } from '../../../core/models/articleDetail';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { commentaireContent } from '../../../core/models/commentaireContent';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-article-details',
@@ -25,7 +26,7 @@ export class ArticleDetails implements OnInit {
   private fb = inject(FormBuilder);
   private id!: string;
   private destroyRef = inject(DestroyRef);
-  public onError = false;
+  public errorMessage: string | null = null;
 
   public form = this.fb.group({
     comment: [
@@ -42,12 +43,8 @@ export class ArticleDetails implements OnInit {
   }
 
   public post(): void {
-    if (this.form.invalid) {
-      return;
-    }
-
     const comment = this.form.value as commentaireContent;
-
+    this.errorMessage = null;
     this.articleService.comment(this.id, comment)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -55,8 +52,8 @@ export class ArticleDetails implements OnInit {
           this.article$ = this.articleService.detail(this.id);
           this.form.reset(); 
         },
-        error: (err) => {
-          this.onError = true;
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.error?.message || err.error || "Une erreur est survenue";
         },
       });
   }

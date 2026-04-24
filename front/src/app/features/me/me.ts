@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { NavBar } from "../../shared/components/nav-bar/nav-bar";
 import { MatDivider } from "@angular/material/divider";
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatInput } from "@angular/material/input";
 import { Bouton } from "../../shared/components/bouton/bouton";
 import { UserService } from '../../core/services/user';
@@ -16,6 +17,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { passwordValidator } from '../../shared/validators/password';
 import { SessionService } from '../../core/services/session';
 import { SessionInformations } from '../../core/models/sessionInformations';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-me',
@@ -29,6 +31,9 @@ export class Me {
   private sessionService = inject(SessionService);
   private fb = inject(FormBuilder);
   private destroyRef = inject(DestroyRef);
+  private matSnackBar = inject(MatSnackBar);
+
+  public errorMessage: string | null = null;
 
   public form = this.fb.group({
     username: [
@@ -67,14 +72,18 @@ export class Me {
 
   public modifier(): void {
     const user = this.form.value as RegisterRequest;
+    this.errorMessage = null;
     this.userService.update(user)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response : SessionInformations) => {
           this.sessionService.logIn(response);
           this.user$ = this.userService.user();
+          this.matSnackBar.open("Vos informations ont bien été modifiées !", 'Fermer', {duration: 3000});
         },
-        error: (err) => console.error('Erreur:', err)
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.error?.message || err.error || "Une erreur est survenue";
+        }
       })
   }
 }

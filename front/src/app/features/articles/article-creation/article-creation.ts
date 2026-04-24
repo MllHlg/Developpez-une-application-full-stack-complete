@@ -5,7 +5,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Bouton } from '../../../shared/components/bouton/bouton';
 import { MatInput } from '@angular/material/input';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ThemeService } from '../../../core/services/theme';
 import { Observable } from 'rxjs';
 import { Theme } from '../../../core/models/theme';
@@ -15,6 +16,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { articleCreate } from '../../../core/models/articleCreate';
 import { ArticleService } from '../../../core/services/article';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-article-creation',
@@ -27,7 +29,8 @@ export class ArticleCreation {
   private articleService = inject(ArticleService);
   private fb = inject(FormBuilder);
   private destroyRef = inject(DestroyRef)
-  public onError = false;
+  private matSnackBar = inject(MatSnackBar);
+  public errorMessage: string | null = null;
 
   public themes$: Observable<Theme[]> = this.themeService.all();
 
@@ -52,11 +55,17 @@ export class ArticleCreation {
 
   public create(): void {
     const article = this.form.value as articleCreate;
+    this.errorMessage = null;
     this.articleService.create(article)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (_: void) => this.form.reset(),
-        error: _ => this.onError = true,
+        next: (_: void) => {
+          this.form.reset();
+          this.matSnackBar.open("L'article a bien été créé !", 'Fermer', {duration: 3000});
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.error?.message || err.error || "Une erreur est survenue";
+        },
       });
   }
 }

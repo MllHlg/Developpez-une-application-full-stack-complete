@@ -14,6 +14,7 @@ import { AuthSuccess } from '../../core/models/authSuccess';
 import { passwordValidator } from '../../shared/validators/password';
 import { SessionService } from '../../core/services/session';
 import { SessionInformations } from '../../core/models/sessionInformations';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,7 @@ export class Login {
   private router = inject(Router);
   private sessionService = inject(SessionService);
 
-  public onError = false;
+  public errorMessage: string | null = null;
 
   private destroyRef = inject(DestroyRef);
 
@@ -50,6 +51,7 @@ export class Login {
 
   public submit(): void {
     const loginRequest = this.form.value as LoginRequest;
+    this.errorMessage = null
     this.authService.login(loginRequest)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -57,7 +59,9 @@ export class Login {
           this.sessionService.logIn(response);
           this.router.navigate(['/articles']);
         },
-        error: _ => this.onError = true,
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.error?.message || err.error || "Une erreur est survenue";
+        },
       });
   }
 }

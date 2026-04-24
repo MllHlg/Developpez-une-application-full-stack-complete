@@ -3,6 +3,7 @@ import { NavBar } from '../../shared/components/nav-bar/nav-bar';
 import { MatIcon } from '@angular/material/icon';
 import { Bouton } from '../../shared/components/bouton/bouton';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatInput } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { Router, RouterLink } from '@angular/router';
@@ -11,6 +12,7 @@ import { AuthService } from '../../core/services/auth';
 import { passwordValidator } from '../../shared/validators/password';
 import { RegisterRequest } from '../../core/models/registerRequest';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -23,8 +25,9 @@ export class Register {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
+  private matSnackBar = inject(MatSnackBar);
 
-  public onError = false;
+  public errorMessage: string | null = null;
 
   public form = this.fb.group({
     username: [
@@ -46,11 +49,17 @@ export class Register {
 
   public submit(): void {
     const registerRequest = this.form.value as RegisterRequest;
+    this.errorMessage = null;
     this.authServie.register(registerRequest)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (_: void) => this.router.navigate(['/login']),
-        error: _ => this.onError = true,
+        next: (_: void) => {
+          this.router.navigate(['/login']);
+          this.matSnackBar.open('Votre compte a bien été créé !', 'Fermer', {duration: 3000});
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.error?.message || err.error || "Une erreur est survenue";
+        }
       });
   }
 }

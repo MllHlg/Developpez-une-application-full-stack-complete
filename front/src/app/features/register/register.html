@@ -23,8 +23,8 @@
                 <input matInput type="password" formControlName="password">
             </mat-form-field>
             <app-bouton texte="S'inscrire" type="submit" [disable]="form.invalid"></app-bouton>
-            @if (onError) {
-                <p class="error" data-testid="error-message">An error occurred</p>
+            @if (errorMessage) {
+                <p class="error" data-testid="error-message">{{errorMessage}}</p>
             }
         </form>
 

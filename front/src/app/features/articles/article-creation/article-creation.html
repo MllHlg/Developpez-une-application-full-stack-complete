@@ -24,6 +24,9 @@
                 <textarea matInput formControlName="texte"></textarea>
             </mat-form-field>
             <app-bouton texte="Créer" type="submit"></app-bouton>
+            @if (errorMessage) {
+                <p class="error" data-testid="error-message">{{errorMessage}}</p>
+            }
         </form>
 
     </div>

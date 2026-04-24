@@ -41,11 +41,11 @@
                 <mat-label>Écrivez ici votre commentaire</mat-label>
                 <textarea matInput formControlName="comment"></textarea>
             </mat-form-field>
-            <button matIconButton type="submit">
+            <button type="submit" class="invisible-button">
                 <mat-icon>send</mat-icon>
             </button>
-            @if (onError) {
-            <p class="error" data-testid="error-message">An error occurred</p>
+            @if (errorMessage) {
+            <p class="error" data-testid="error-message">{{errorMessage}}</p>
             }
         </form>
     </div>
