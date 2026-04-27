@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.configuration;
+package com.openclassrooms.mddapi.security;
 
 import java.util.Arrays;
 

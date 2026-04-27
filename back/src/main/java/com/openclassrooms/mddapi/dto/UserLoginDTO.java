@@ -1,13 +1,13 @@
 package com.openclassrooms.mddapi.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class UserLoginDTO {
-    @NotNull
+    @NotBlank
     private String identifiant;
 
-    @NotNull
+    @NotBlank
     private String password;
 }

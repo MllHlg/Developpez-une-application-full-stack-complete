@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.mddapi.configuration.service.JWTService;
+import com.openclassrooms.mddapi.security.JWTService;
 import com.openclassrooms.mddapi.dto.AuthResponseDTO;
 import com.openclassrooms.mddapi.dto.UserCreateDTO;
 import com.openclassrooms.mddapi.dto.UserLoginDTO;
@@ -31,12 +31,20 @@ public class AuthController {
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthController(JWTService jwtService, AuthenticationManager authenticationManager, IUserService userService) {
+    public AuthController(JWTService jwtService, AuthenticationManager authenticationManager,
+            IUserService userService) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
     }
 
+    /**
+     * Authentifie un utilisateur
+     * * @param dto Les informations de l'utilisateur (email ou username et mot de
+     * passe)
+     * 
+     * @return Les informations de session de l'utilisateur
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid UserLoginDTO dto) {
         Authentication authentication = this.authenticationManager.authenticate(
@@ -51,6 +59,13 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Ajoute un nouvel utilisateur à la base de données
+     * * @param dto Les informations de l'utilisateur (email, username et mot de
+     * passe)
+     * 
+     * @return Un message de confirmation
+     */
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody @Valid UserCreateDTO dto) {
         this.userService.createUser(dto);

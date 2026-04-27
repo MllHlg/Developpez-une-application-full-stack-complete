@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.service;
 
-import com.openclassrooms.mddapi.configuration.service.JWTService;
+import com.openclassrooms.mddapi.security.JWTService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +41,11 @@ public class UserService implements IUserService, UserDetailsService {
         this.JWTService = JWTService;
     }
 
+    /**
+     * Créer un nouvel utilisateur
+     * * @param dto les données reçues par l'API, nécessaires à la création de
+     * l'utilisateur
+     */
     public void createUser(UserCreateDTO dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new BadRequestException("Cette adresse email est déjà attribuée");
@@ -55,18 +60,43 @@ public class UserService implements IUserService, UserDetailsService {
         this.userRepository.save(user);
     }
 
+    /**
+     * Récupère l'utilisateur correspondant au nom d'utilisateur donné en paramètre
+     * * @param username Le nom d'utilisateur de l'utilisateur à trouver
+     * 
+     * @return l'utilisateur s'il existe et lève une exception dans le cas où il
+     *         n'est
+     *         pas présent
+     */
     public User findByUsername(String username) {
         User user = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
                 "Le nom d'utilisateur " + username + " ne correspond à aucun utilisateur"));
         return user;
     }
 
+    /**
+     * Récupère l'utilisateur correspondant à l'identifiant donné en paramètre
+     * * @param id L'identifiant de l'utilisateur à trouver
+     * 
+     * @return l'utilisateur s'il existe et lève une exception dans le cas où il
+     *         n'est
+     *         pas présent
+     */
     public User findById(Long id) {
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
         return user;
     }
 
+    /**
+     * Récupère l'utilisateur correspondant à l'identifiant donné en paramètre
+     * (username ou email)
+     * * @param id L'identifiant de l'utilisateur à trouver (username ou email)
+     * 
+     * @return l'utilisateur s'il existe et lève une exception dans le cas où il
+     *         n'est
+     *         pas présent
+     */
     public User findByUsernameOrEmail(String identifiant) {
         User user = this.userRepository.findByUsernameOrEmail(identifiant, identifiant)
                 .orElseThrow(() -> new UsernameNotFoundException(
@@ -74,6 +104,13 @@ public class UserService implements IUserService, UserDetailsService {
         return user;
     }
 
+    /**
+     * Récupère les détails de l'utilisateur correspondant à l'identifiant donné en
+     * paramètre (username ou email)
+     * * @param id L'identifiant de l'utilisateur à trouver (username ou email)
+     * 
+     * @return les détails de l'utilisateur
+     */
     @Override
     public UserDetails loadUserByUsername(String identifiant) {
         User user = this.findByUsernameOrEmail(identifiant);
@@ -81,6 +118,11 @@ public class UserService implements IUserService, UserDetailsService {
                 Collections.emptyList());
     }
 
+    /**
+     * Abonne l'utilisateur authentifié au thème sélectionné
+     * * @param theme_id L'identifiant du thème sélectionné
+     * * @param user_id L'identifiant de l'utilisateur actuellement authentifié
+     */
     public void abonnement(Long theme_id, Long user_id) {
         Theme theme = this.themeService.findById(theme_id);
         User user = this.findById(user_id);
@@ -94,6 +136,11 @@ public class UserService implements IUserService, UserDetailsService {
         this.userRepository.save(user);
     }
 
+    /**
+     * Désabonne l'utilisateur authentifié du thème sélectionné
+     * * @param theme_id L'identifiant du thème sélectionné
+     * * @param user_id L'identifiant de l'utilisateur actuellement authentifié
+     */
     public void desabonnement(Long theme_id, Long user_id) {
         User user = this.findById(user_id);
 
@@ -107,6 +154,13 @@ public class UserService implements IUserService, UserDetailsService {
         this.userRepository.save(user);
     }
 
+    /**
+     * Modifie les informations de l'utilisateur authentifié
+     * * @param id L'identifiant de l'utilisateur actuellement authentifié
+     * * @param dto Les informations à modifier reçues par l'API
+     * 
+     * @return Le nouveau token de l'utilisateur adapté à ses nouvelles informations
+     */
     public String update(Long id, UserUpdateDTO dto) {
         User user = this.findById(id);
         if (!user.getEmail().equals(dto.getEmail()) && userRepository.existsByEmail(dto.getEmail())) {

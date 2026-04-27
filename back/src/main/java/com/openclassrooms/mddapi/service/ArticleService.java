@@ -25,6 +25,14 @@ public class ArticleService implements IArticleService {
 		this.themeService = themeService;
 	}
 
+	/**
+	 * Récupère la liste des articles liés aux thèmes auxquels l'utilisateur est
+	 * abonné.
+	 * * @param user L'utilisateur actuellement authentifié
+	 * 
+	 * @return Une liste d'articles, ou une liste vide si l'utilisateur n'a aucun
+	 *         abonnement
+	 */
 	public List<Article> getArticles(User user) {
 		List<Theme> themes = user.getThemes();
 		if (themes.isEmpty()) {
@@ -33,12 +41,24 @@ public class ArticleService implements IArticleService {
 		return this.articleRepository.findAllByThemeIn(themes);
 	}
 
+	/**
+	 * Récupère l'article correspondant à l'identifiant donné en paramètre
+	 * * @param id L'identifiant de l'article à trouver
+	 * 
+	 * @return l'article s'il existe et lève une exception dans le cas où il n'est
+	 *         pas présent
+	 */
 	public Article findById(Long id) {
 		Article article = articleRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Article non trouvé"));
 		return article;
 	}
 
+	/**
+	 * Créer un nouvel article avec l'utilisateur authentifié comme auteur
+	 * * @param username le nom de l'utilisateur actuellement authentifié
+	 * * @param articleCreateDTO les données de l'article envoyées à l'API
+	 */
 	public void create(String username, ArticleCreateDTO articleCreateDTO) {
 		User user = this.userService.findByUsername(username);
 		Theme theme = this.themeService.findById(articleCreateDTO.getTheme());

@@ -10,7 +10,7 @@ import com.openclassrooms.mddapi.model.User;
 
 @Component
 @Mapper(componentModel = "spring")
-public abstract class UserCreateMapper implements EntityMapper<UserCreateDTO, User> {
+public interface UserCreateMapper extends EntityMapper<UserCreateDTO, User> {
     
     @Mappings({
         @Mapping(target = "id", ignore = true),

@@ -14,7 +14,7 @@ public class ArticleCreateDTO {
 	@NotNull
 	private Long theme;
 
-	@NotNull
+	@NotBlank
     @Size(max = 2500)
 	private String texte;
 }

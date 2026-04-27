@@ -7,12 +7,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "themes")
 public class Theme {
 
@@ -25,9 +28,9 @@ public class Theme {
 	@Column(nullable = false, unique = true)
 	private String titre;
 
-	@NotNull
+	@NotBlank
     @Size(max = 2500)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2500)
 	private String description;
 
 }

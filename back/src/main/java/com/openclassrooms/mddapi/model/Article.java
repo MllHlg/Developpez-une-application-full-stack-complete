@@ -18,12 +18,13 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "articles")
@@ -51,9 +52,9 @@ public class Article {
 	@JoinColumn(name = "theme_id", nullable = false)
 	private Theme theme;
 
-	@NonNull
+	@NotBlank
     @Size(max = 2500)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2500)
 	private String texte;
 	
 }

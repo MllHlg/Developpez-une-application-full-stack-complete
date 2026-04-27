@@ -10,7 +10,7 @@ import com.openclassrooms.mddapi.model.Theme;
 
 @Component
 @Mapper(componentModel = "spring")
-public abstract class ThemeMapper implements EntityMapper<ThemeDTO, Theme> {
+public interface ThemeMapper extends EntityMapper<ThemeDTO, Theme> {
     @Mappings({
             @Mapping(target = "abonnement", ignore = true)
     })

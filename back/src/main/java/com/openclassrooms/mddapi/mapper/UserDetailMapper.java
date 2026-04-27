@@ -9,8 +9,8 @@ import com.openclassrooms.mddapi.dto.UserDetailDTO;
 import com.openclassrooms.mddapi.model.User;
 
 @Component
-@Mapper(componentModel = "spring")
-public abstract class UserDetailMapper implements EntityMapper<UserDetailDTO, User> {
+@Mapper(componentModel = "spring", uses = {ThemeMapper.class})
+public interface UserDetailMapper extends EntityMapper<UserDetailDTO, User> {
     @Mappings({
         @Mapping(target = "password", ignore = true)
     })

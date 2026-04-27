@@ -28,9 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
-
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleController {
@@ -40,7 +37,8 @@ public class ArticleController {
     private final ArticleMapper articleMapper;
     private final ArticleDetailMapper articleDetailMapper;
 
-    public ArticleController(IArticleService articleService, ArticleMapper articleMapper, ArticleDetailMapper articleDetailMapper, ICommentService commentService, IUserService userService) {
+    public ArticleController(IArticleService articleService, ArticleMapper articleMapper,
+            ArticleDetailMapper articleDetailMapper, ICommentService commentService, IUserService userService) {
         this.articleService = articleService;
         this.articleMapper = articleMapper;
         this.articleDetailMapper = articleDetailMapper;
@@ -48,13 +46,26 @@ public class ArticleController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    /**
+     * Renvoie les articles liés aux thèmes auquels l'utilisateur authentifié est
+     * abonné
+     * * @param authentication Token de l'utilisateur actuellement authentifié
+     * 
+     * @return Une liste d'articles
+     */
+    @GetMapping
     public ResponseEntity<List<ArticleDTO>> getArticles(Authentication authentication) {
         User user = this.userService.findByUsername(authentication.getName());
-		List<Article> articles = this.articleService.getArticles(user);
-		return ResponseEntity.ok().body(articleMapper.toDto(articles));
-	}
+        List<Article> articles = this.articleService.getArticles(user);
+        return ResponseEntity.ok().body(articleMapper.toDto(articles));
+    }
 
+    /**
+     * Renvoie les informations de l'article sélectionné
+     * * @param id L'identifiant de l'article sélectionné
+     * 
+     * @return Les informations de l'article
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDetailDTO> getArticleById(@PathVariable("id") final Long id) {
         Article article = this.articleService.findById(id);
@@ -63,17 +74,36 @@ public class ArticleController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping()
-    public ResponseEntity<Map<String, String>> createArticle(@RequestBody @Valid ArticleCreateDTO articleCreateDTO, Authentication authentication) {    
+    /**
+     * Créer un nouvel article dans la base de données en utilisant les informations
+     * reçues
+     * * @param articleCreateDTO Les informations reçues sur le nouvel article
+     * * @param authentication Token de l'utilisateur actuellement authentifié
+     * 
+     * @return Un message de confirmation
+     */
+    @PostMapping
+    public ResponseEntity<Map<String, String>> createArticle(@RequestBody @Valid ArticleCreateDTO articleCreateDTO,
+            Authentication authentication) {
         String username = authentication.getName();
         this.articleService.create(username, articleCreateDTO);
-        return ResponseEntity.ok(Map.of("message","Article créé"));
+        return ResponseEntity.ok(Map.of("message", "Article créé"));
     }
 
-    @PostMapping("/{id}/message")
-    public ResponseEntity<Map<String, String>> createMessage(@PathVariable("id") final Long id, @RequestBody @Valid CommentCreateDTO texte, Authentication authentication) { 
+    /**
+     * Créer un nouveau commentaire dans la base de données en utilisant les
+     * informations reçues
+     * * @param id L'identifiant de l'article auquel est destiné le commentaire
+     * * @param dto Le contenu texte du nouveau commentaire
+     * * @param authentication Token de l'utilisateur actuellement authentifié
+     * 
+     * @return Un message de confirmation
+     */
+    @PostMapping("/{id}/commentaires")
+    public ResponseEntity<Map<String, String>> createMessage(@PathVariable("id") final Long id,
+            @RequestBody @Valid CommentCreateDTO dto, Authentication authentication) {
         User user = this.userService.findByUsername(authentication.getName());
-        this.commentService.create(texte, user, id);       
-        return ResponseEntity.ok(Map.of("message","Commentaire envoyé"));
+        this.commentService.create(dto, user, id);
+        return ResponseEntity.ok(Map.of("message", "Commentaire envoyé"));
     }
 }

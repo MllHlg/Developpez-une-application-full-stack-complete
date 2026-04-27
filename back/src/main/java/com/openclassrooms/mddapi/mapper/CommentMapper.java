@@ -10,7 +10,7 @@ import com.openclassrooms.mddapi.model.Comment;
 
 @Component
 @Mapper(componentModel = "spring")
-public abstract class CommentMapper implements EntityMapper<CommentDTO, Comment> {
+public interface CommentMapper extends EntityMapper<CommentDTO, Comment> {
 
     @Mappings({
         @Mapping(target = "auteur", source = "auteur.username")

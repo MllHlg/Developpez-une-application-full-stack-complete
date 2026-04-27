@@ -1,18 +1,18 @@
 package com.openclassrooms.mddapi.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class UserUpdateDTO {
-    @NotNull
+    @NotBlank
     @Size(max = 20)
     private String username;
 
-    @NotNull
+    @NotBlank
     @Size(max = 50)
     @Email
     private String email;

@@ -22,6 +22,13 @@ public class ThemeService implements IThemeService {
 		this.themeMapper = themeMapper;
 	}
 
+	/**
+	 * Récupère la liste des thèmes
+	 * * @param user L'utilisateur actuellement authentifié
+	 * 
+	 * @return Une liste de thèmes avec le statut de l'abonnement de l'utilisateur
+	 *         connecté
+	 */
 	public List<ThemeDTO> getThemes(User user) {
 		List<Theme> themes = this.themeRepository.findAll();
 		List<ThemeDTO> themesDTO = this.themeMapper.toDto(themes);
@@ -35,8 +42,16 @@ public class ThemeService implements IThemeService {
 		return themesDTO;
 	}
 
+	/**
+	 * Récupère le thème correspondant à l'identifiant donné
+	 * * @param id L'identifiant du thème voulu
+	 * 
+	 * @return Le thème s'il existe et lève une exception dans le cas où il n'est
+	 *         pas présent
+	 */
 	public Theme findById(Long id) {
-		Theme theme = this.themeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Thème non trouvé"));
+		Theme theme = this.themeRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Thème non trouvé"));
 		return theme;
 	}
 }

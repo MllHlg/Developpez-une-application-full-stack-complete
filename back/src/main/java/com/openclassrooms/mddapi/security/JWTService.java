@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.configuration.service;
+package com.openclassrooms.mddapi.security;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

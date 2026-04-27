@@ -10,7 +10,7 @@ import com.openclassrooms.mddapi.model.Article;
 
 @Component
 @Mapper(componentModel = "spring")
-public abstract class ArticleMapper implements EntityMapper<ArticleDTO, Article> {
+public interface ArticleMapper extends EntityMapper<ArticleDTO, Article> {
     
     @Mappings({
         @Mapping(target = "auteur", ignore = true),

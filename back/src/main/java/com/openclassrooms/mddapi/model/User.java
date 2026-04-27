@@ -12,13 +12,15 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
@@ -27,18 +29,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
+    @NotBlank
     @Size(max = 20)
     @Column(unique = true, nullable = false)
     private String username;
 
-    @NonNull
+    @NotBlank
     @Size(max = 50)
     @Email
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NonNull
+    @NotBlank
     @Size(min = 8, max = 150)
     @Column(nullable = false)
     private String password;
