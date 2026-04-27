@@ -42,7 +42,7 @@ export class SessionService {
     if (savedSession) {
       this.sessionInformations = JSON.parse(savedSession);
       this.isLogged = true;
-      this.next;
+      this.next();
     }
   }
 }

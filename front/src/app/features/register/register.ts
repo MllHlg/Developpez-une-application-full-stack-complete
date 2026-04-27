@@ -10,7 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth';
 import { passwordValidator } from '../../shared/validators/password';
-import { RegisterRequest } from '../../core/models/registerRequest';
+import { RegisterRequest } from '../../core/models/userFormRequest';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 

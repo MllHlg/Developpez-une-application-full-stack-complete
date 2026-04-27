@@ -1,3 +1,3 @@
-export interface commentaireContent {
-    comment: String;
+export interface CommentaireContent {
+    comment: string;
 }

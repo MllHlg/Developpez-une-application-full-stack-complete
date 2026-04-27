@@ -1,7 +1,7 @@
 export interface Article {
     id: number;
-    titre: String;
+    titre: string;
     date: Date;
-    auteur: String;
-    texte: String;
+    auteur: string;
+    texte: string;
 }

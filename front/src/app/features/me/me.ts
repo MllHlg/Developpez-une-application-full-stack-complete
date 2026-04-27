@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { ThemeCard } from "../../shared/components/theme-card/theme-card";
 import { ThemeService } from '../../core/services/theme';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RegisterRequest } from '../../core/models/registerRequest';
+import { RegisterRequest } from '../../core/models/userFormRequest';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { passwordValidator } from '../../shared/validators/password';
 import { SessionService } from '../../core/services/session';

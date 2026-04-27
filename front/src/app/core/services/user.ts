@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { SessionInformations } from '../models/sessionInformations';
-import { RegisterRequest } from '../models/registerRequest';
+import { UserFormRequest } from '../models/userFormRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class UserService {
     return this.httpClient.get<User>(this.pathService);
   }
 
-  public update(user: RegisterRequest): Observable<SessionInformations> {
+  public update(user: UserFormRequest): Observable<SessionInformations> {
     return this.httpClient.put<SessionInformations>(this.pathService, user);
   }
 }
