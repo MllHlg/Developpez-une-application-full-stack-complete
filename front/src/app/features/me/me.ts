@@ -65,8 +65,7 @@ export class Me {
     this.themeService.desabonnement(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => this.user$ = this.userService.user(),
-        error: (err) => console.error('Erreur:', err)
+        next: () => this.user$ = this.userService.user()
       });
   }
 

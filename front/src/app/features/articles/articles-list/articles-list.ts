@@ -39,8 +39,7 @@ export class ArticlesList implements OnInit {
           this.isLoading = false;
           this.cdr.detectChanges();
         },
-        error: (err) => {
-          console.error('Erreur de chargement des articles', err);
+        error: (_) => {
           this.isLoading = false;
           this.cdr.detectChanges();
         }

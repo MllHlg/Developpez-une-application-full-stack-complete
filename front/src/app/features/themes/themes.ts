@@ -25,7 +25,6 @@ export class ThemesList {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.themes$ = this.themeService.all(),
-        error: (err) => console.error('Erreur:', err)
       });
   }
 }
