@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ArticleDetail } from '../../../core/models/articleDetail';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { commentaireContent } from '../../../core/models/commentaireContent';
+import { CommentaireContent } from '../../../core/models/commentaireContent';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -43,7 +43,7 @@ export class ArticleDetails implements OnInit {
   }
 
   public post(): void {
-    const comment = this.form.value as commentaireContent;
+    const comment = this.form.value as CommentaireContent;
     this.errorMessage = null;
     this.articleService.comment(this.id, comment)
       .pipe(takeUntilDestroyed(this.destroyRef))

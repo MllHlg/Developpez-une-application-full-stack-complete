@@ -13,7 +13,7 @@ import { Theme } from '../../../core/models/theme';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { articleCreate } from '../../../core/models/articleCreate';
+import { ArticleCreate } from '../../../core/models/articleCreate';
 import { ArticleService } from '../../../core/services/article';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -54,7 +54,7 @@ export class ArticleCreation {
   })
 
   public create(): void {
-    const article = this.form.value as articleCreate;
+    const article = this.form.value as ArticleCreate;
     this.errorMessage = null;
     this.articleService.create(article)
       .pipe(takeUntilDestroyed(this.destroyRef))

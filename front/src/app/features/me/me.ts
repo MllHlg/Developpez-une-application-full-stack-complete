@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { ThemeCard } from "../../shared/components/theme-card/theme-card";
 import { ThemeService } from '../../core/services/theme';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RegisterRequest } from '../../core/models/userFormRequest';
+import { UserFormRequest } from '../../core/models/userFormRequest';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { passwordValidator } from '../../shared/validators/password';
 import { SessionService } from '../../core/services/session';
@@ -71,7 +71,7 @@ export class Me {
   }
 
   public modifier(): void {
-    const user = this.form.value as RegisterRequest;
+    const user = this.form.value as UserFormRequest;
     this.errorMessage = null;
     this.userService.update(user)
       .pipe(takeUntilDestroyed(this.destroyRef))

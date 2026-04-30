@@ -10,7 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth';
 import { passwordValidator } from '../../shared/validators/password';
-import { RegisterRequest } from '../../core/models/userFormRequest';
+import { UserFormRequest } from '../../core/models/userFormRequest';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -48,7 +48,7 @@ export class Register {
   });
 
   public submit(): void {
-    const registerRequest = this.form.value as RegisterRequest;
+    const registerRequest = this.form.value as UserFormRequest;
     this.errorMessage = null;
     this.authServie.register(registerRequest)
       .pipe(takeUntilDestroyed(this.destroyRef))
