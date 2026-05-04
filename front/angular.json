@@ -2,7 +2,15 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@cypress/schematic",
+      "@cypress/schematic",
+      "@cypress/schematic",
+      "@cypress/schematic",
+      "@schematics/angular"
+    ]
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -18,9 +26,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular/build:application",
+          "builder": "ngx-build-plus:browser",
           "options": {
-            "browser": "src/main.ts",
+            "outputPath": "dist/front",
+            "index": "src/index.html",
+            "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -33,9 +43,7 @@
               "includePaths": ["src/styles"]
             },
             "styles": ["src/styles.scss"],
-            "polyfills": [
-              "zone.js"
-            ]
+            "polyfills": ["zone.js"]
           },
           "configurations": {
             "production": {
@@ -63,12 +71,19 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": false,
+              "extractLicenses": false,
+              "extraWebpackConfig": "cypress-coverage.webpack.config.js",
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular/build:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "front:build:production"
@@ -79,8 +94,74 @@
           },
           "defaultConfiguration": "development"
         },
+        "serve-coverage": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "buildTarget": "front:build:e2e",
+            "extraWebpackConfig": "cypress-coverage.webpack.config.js"
+          }
+        },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "ngx-build-plus:karma"
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "front:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "front:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "front:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "front:serve:development"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "front:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "front:serve:production"
+            }
+          }
+        },
+        "e2e-ci": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "browser": "chrome",
+            "devServerTarget": "front:serve-coverage",
+            "headless": true,
+            "watch": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "front:serve-coverage:production"
+            }
+          }
         }
       }
     }

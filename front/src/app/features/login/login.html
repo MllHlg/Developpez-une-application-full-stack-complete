@@ -18,7 +18,7 @@
                 <mat-label>Mot de passe</mat-label>
                 <input matInput type="password" formControlName="password">
             </mat-form-field>
-            <app-bouton texte="Se connecter" type="submit" [disable]="form.invalid"></app-bouton>
+            <app-bouton texte="Se connecter" type="submit" [disable]="form.invalid" data-testid="submit_button"></app-bouton>
             @if (errorMessage) {
                 <p class="error" data-testid="error-message">{{errorMessage}}</p>
             }

@@ -7,6 +7,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -33,16 +35,26 @@ public class SpringSecurityConfig {
     @Value("${security.jwt.secret-key}")
     private String jwtKey;
 
+    private final Environment env;
+
+    public SpringSecurityConfig(Environment env) {
+        this.env = env;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api-docs.json").permitAll()
-                        .anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> {
+                        auth.requestMatchers("/api/auth/register", "/api/auth/login").permitAll();
+                        auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api-docs.json").permitAll();
+                        if (Arrays.asList(env.getActiveProfiles()).contains("e2e")) {
+                            auth.requestMatchers(HttpMethod.DELETE, "/api/test/reset-database").permitAll();
+                        }
+                        auth.anyRequest().authenticated();
+                    })
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .httpBasic(Customizer.withDefaults())
                 .build();
